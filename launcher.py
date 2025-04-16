@@ -1,21 +1,35 @@
 """
 An App to show the current time.
 """
+"""
+Imports
+"""
+import importlib
 
-from datetime import datetime
-
+"""
+Textual imports
+"""
 from textual import on
 from textual.app import App, ComposeResult
+from textual.widget import Widget
+from textual.widgets import Button, Header, Footer, Select
+from textual.containers import Vertical
 from textual.binding import Binding
-from textual.widgets import Footer, Header, Select
 
-LINES = """I must not fear.
-Fear is the mind-killer.
-Fear is the little-death that brings total obliteration.
-I will face my fear.
-I will permit it to pass over me and through me.""".splitlines()
+"""
+"""
 
+"""
+utils imports
+"""
+from utils.tools.files import get_files
+from utils.tui.clear_term import clear_terminal
+from utils.tools.nmap import NmapWidget
 
+LINES = get_files().splitlines()
+
+        
+            
 class Hauncher(App):                                  
     BINDINGS = [
         Binding(key="x", action="quit", description="Quit the app"),
@@ -51,19 +65,12 @@ class Hauncher(App):
     @on(Select.Changed)
 
     def select_changed(self, event : Select.Changed) -> None:
-        self.title = str(event.value)
-        """
-        Called when the app is ready to start.
+        if str(event.value).lower() == "nmap":
+            self.mount(NmapWidget())
+            
 
-        This method is called once the application is ready to start. It
-        schedules the update_clock method to be called every second to
-        update the displayed time.
+        
 
-        Returns:
-            None
-        """
-        # self.update_clock()
-        # self.set_interval(1, self.update_clock)
 
     def footer(self) -> None:
         """
@@ -81,5 +88,10 @@ class Hauncher(App):
 
 
 if __name__ == "__main__":
-    app = Hauncher()
-    app.run()
+    try:
+        app = Hauncher()
+        app.run()
+    finally:
+        # clear_terminal()
+        # break  # Remove this `break` if you want to return after sub-app exits
+        pass
