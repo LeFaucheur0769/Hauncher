@@ -1,6 +1,8 @@
 # Hauncher
 Hacking tools launcher
 
+use subprocess to run commands inside the terminal
+
 ## 📍 Roadmap
 
 <!-- Begin: docs/Roadmap.md -->
